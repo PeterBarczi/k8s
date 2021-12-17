@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: rocky
+  name: rocky
+spec:
+  replicas: 100
+  selector:
+    matchLabels:
+      app: rocky
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: rocky
+    spec:
+      containers:
+      - image: petyb/rocky:2
+        name: rocky
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: rocky
+  name: rocky-np
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30001
+  selector:
+    app: rocky
+  type: NodePort
+status:
